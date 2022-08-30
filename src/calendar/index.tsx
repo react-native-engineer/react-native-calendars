@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
 
-import React, {useRef, useState, useEffect, useCallback, useMemo} from 'react';
+import React, {useRef, useState, useEffect, useCallback, useMemo, forwardRef, useImperativeHandle} from 'react';
 import {View, ViewStyle, StyleProp} from 'react-native';
 // @ts-expect-error
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
@@ -72,7 +72,7 @@ export interface CalendarProps extends CalendarHeaderProps, DayProps {
  * @example: https://github.com/wix/react-native-calendars/blob/master/example/src/screens/calendars.js
  * @gif: https://github.com/wix/react-native-calendars/blob/master/demo/assets/calendar.gif
  */
-const Calendar = (props: CalendarProps) => {
+const Calendar = forwardRef((props: CalendarProps, ref) => {
   const {
     initialDate,
     current,
@@ -103,6 +103,11 @@ const Calendar = (props: CalendarProps) => {
   const header = useRef();
   const weekNumberMarking = useRef({disabled: true, disableTouchEvent: true});
  
+  useImperativeHandle(ref, () => ({
+    onPrev: onSwipeLeft,
+    onNext: onSwipeRight
+  }));
+  
   useEffect(() => {
     if (initialDate) {
       setCurrentMonth(parseDate(initialDate));
@@ -290,7 +295,7 @@ const Calendar = (props: CalendarProps) => {
       </View>
     </GestureComponent>
   );
-};
+});
 
 export default Calendar;
 Calendar.displayName = 'Calendar';
