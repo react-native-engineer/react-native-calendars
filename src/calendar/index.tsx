@@ -104,8 +104,8 @@ const Calendar = forwardRef((props: CalendarProps, ref) => {
   const weekNumberMarking = useRef({disabled: true, disableTouchEvent: true});
  
   useImperativeHandle(ref, () => ({
-    onPrev: onSwipeLeft,
-    onNext: onSwipeRight
+    onPrev: onSwipeRight,
+    onNext: onSwipeLeft
   }));
   
   useEffect(() => {
